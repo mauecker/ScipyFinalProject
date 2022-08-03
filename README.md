@@ -81,9 +81,11 @@ Users can influence the functionality of the program by specifying
   - total number of assists vs turnovers in the season (scatter plot)
 
 ## A note on operability
-When the queried aspect is `mar` (winning / losing margins), for some teams, the program prints the notification that the required data is not available on `bbref` for the queried team, while it actually is.<br>
-This is due to the dictionary of team names and their corresponding abbreviation not being complete and correct. Unfortunately, the abbreviations `bbref` uses in some cases deviate from the official NBA abbreviations, and no table of team names and abbreviations is provided on `bbref`. The best approximation we could find was [this inofficial listing](https://github.com/sherpan/bbref_team_game_logs/blob/master/README.md#basketball-reference-team-abbreviations) on GitHub, however it is still not complete and does contain errors (we fixed those that we detected manually).<br>
-However, in our tests we found that this affects mostly teams that are long defunct. For all of the more recent teams who participated in seasons since ~1979/80, our program works fine also regarding the `mar` aspect.
+When querying certain teams, the program at the stage of webscraping prints the notification that the data required for visualization is not available on `bbref` for the queried team, while it actually is.<br>
+This is due to the dictionary of team names and their corresponding abbreviation we used not being complete and correct. Unfortunately, the abbreviations `bbref` uses in some cases deviate from the official NBA abbreviations, and no table of team names and abbreviations is provided on `bbref`. The best approximation we could find was [this inofficial listing](https://github.com/sherpan/bbref_team_game_logs/blob/master/README.md#basketball-reference-team-abbreviations) on GitHub, however it is still not complete and does contain errors (we fixed those that we detected manually).<br>
+However, in our tests we found that this affects mostly teams that are long defunct (since 1960 or so). For all teams who participated in more recent NBA seasons, our program works fine.
+
+We tried to create our own listing of team names and abbreviations used on `bbref` by scraping Google search results for the term `f'site:https://www.basketball-reference.com/teams/ "{Team Name}"'` using the [`googlesearch`](https://github.com/Nv7-GitHub/googlesearch) package, but had to figure out that Google does not like being scraped and returns a `HTTP 429 Too Many Requests` error in case of too many requests over a too short time period, which would be necessary to scrape the abbreviations for all NBA teams.
 
 ## Contact
 
