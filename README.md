@@ -43,6 +43,11 @@ Then, you just need to navigate to the directory to which `git` saved the code f
 ```
 The further usage is explained in the terminal by the program itself.
 
+## Acknowledgements
+Besides the creators of the libraries mentioned above, this project was enabled by
+- the people who created and maintain [basketball-reference](https://www.basketball-reference.com)
+- [@sherpan](https://github.com/sherpan) and [@smehta73](https://github.com/smehta73) on GitHub, who published an extensive [list of the team abbreviations used on bbref](https://github.com/sherpan/bbref_team_game_logs#basketball-reference-team-abbreviations)
+
 ## Structure
 ### Files
 The module consists of five `.py`-files:
@@ -61,4 +66,25 @@ The three files `query_io.py`, `sourcing.py`, and `plotting.py` hold the main fu
 
 `query_io.py` is an exception here, in the sense that it has a second function that is addressed in `main.py`, namely `query_io.export(plot, query)`, which exports the plot as a PNG file and prints a notification about the location of the directory to which the file has been saved.
 
+All further information regarding the mechanics of the code can be found in the function docstrings.
+
 ### Options
+Users can influence the functionality of the program by specifying
+- one completed NBA season (1946/47 – 2021/22),
+- one or multiple NBA teams, and
+- one of the following aspects for visualization:
+  - winning / losing margins for all games in the season (line plot)
+  - total points scored in the season (bar plot)
+  - total number of offensive rebounds in the season (bar plot)
+  - total number of defensive rebounds in the season (bar plot)
+  - shooting accuracy in the season (with respect to 3- and 2-point-shots as well as free throws, grouped bar plot)
+  - total number of assists vs turnovers in the season (scatter plot)
+
+## A note on operability
+When the queried aspect is `mar` (winning / losing margins), for some teams, the program prints the notification that the required data is not available on `bbref` for the queried team, while it actually is.<br>
+This is due to the dictionary of team names and their corresponding abbreviation not being complete and correct. Unfortunately, the abbreviations `bbref` uses in some cases deviate from the official NBA abbreviations, and no table of team names and abbreviations is provided on `bbref`. The best approximation we could find was [this inofficial listing](https://github.com/sherpan/bbref_team_game_logs/blob/master/README.md#basketball-reference-team-abbreviations) on GitHub, however it is still not complete and does contain errors (we fixed those that we detected manually).<br>
+However, in our tests we found that this affects mostly teams that are long defunct. For all of the more recent teams who participated in seasons since ~1979/80, our program works fine also regarding the `mar` aspect.
+
+## Contact
+
+Our StudIP handles are `dsiecke` and `mauecker`. Combine them with `@uos.de` to obtain our email addresses.
