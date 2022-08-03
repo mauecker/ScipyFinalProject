@@ -41,7 +41,7 @@ Then, you just need to navigate to the directory to which `git` saved the code f
   cd path/to/repository
   python main.py
 ```
-The further usage is explained in the terminal by the program itself. Some example usages can be found in the accompanying `.ipynb files.
+The further usage is explained in the terminal by the program itself. Some example usages can be found in the accompanying `.ipynb` files.
 
 ## Acknowledgements
 Besides the creators of the libraries mentioned above, this project was enabled by
