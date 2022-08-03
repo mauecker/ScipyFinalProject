@@ -169,12 +169,4 @@ def scrape_season_stats(season):
             teamname_clean = teamname[:-1]
             season_stats.loc[season_stats["Team"] == teamname, "Team"] = teamname_clean
 
-    # replacing team names by three-letter abbreviations
-    abbr = abbreviations()
-    # (convert team names to all caps in order to suit the entries in 'abbr':)
-    season_stats["Team"] = season_stats["Team"].str.upper()
-    season_stats = season_stats.replace({"Team": abbr})
-
-    season_stats = season_stats.set_index("Team")
-
     return season_stats

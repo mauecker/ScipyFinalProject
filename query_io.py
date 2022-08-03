@@ -51,10 +51,11 @@ def get_query():
             MIA, Dallas Mavericks
         """
     )
-    team_abbreviations = utils.abbreviations()
-    teams = get_suitable_input("Team(s): ", required=(season, team_abbreviations))
-    # flip the team_abbreviations dictionary
-    team_fullnames = dict((full, abbr) for (abbr, full) in team_abbreviations.items())
+    names_abbrs = utils.abbreviations()
+    # flip the names_abbrs dictionary
+    abbrs_names = dict((abbr, name) for (name, abbr) in names_abbrs.items())
+    teams = get_suitable_input("Team(s): ", required=(season, abbrs_names, names_abbrs))
+
     # get a nicely legible string representation of all queried teams and their
     # respective abbreviation used by bbref
     teams_verbal_enum = ""
@@ -63,7 +64,7 @@ def get_query():
             # insert an "and" in front of the last team in the enumeration
             teams_verbal_enum += "and "
         # represent each team like this: "Full name (Abbreviation)"
-        teams_verbal_enum += f"{team_fullnames[team]} ({team})"
+        teams_verbal_enum += f"{abbrs_names[team]} ({team})"
         if len(teams) > 2 and team != teams[-1]:
             teams_verbal_enum += ", "
         elif len(teams) == 2 and team != teams[-1]:
@@ -121,34 +122,53 @@ def get_suitable_input(category, required=None):
                 suitable_input = True
 
         elif category == "Team(s): ":
-            season, team_abbreviations = required
-            # get all teams that participated in season
-            possible_teams = utils.scrape_season_stats(season).index
+            season, abbrs_names, names_abbrs = required
+            # get all teams that participated in season, conver to all caps in
+            # order to allow case insensitive input by ...
+            possible_teams = utils.scrape_season_stats(season).set_index("Team").index.str.upper()
 
+            # ... converting also the input to all caps
             inp = inp.upper().split(", ")
             to_be_removed = []
+            # Here things get a bit complex. Essentially, what we are doing
+            # here is checking whether the queried teams participated in the
+            # queried season. We do this by comparing the full names.
+            # If we compared the abbreviations, it could be that a team which
+            # did actually participate in the queried season is rejected
+            # because the dictionary we use (utils.abbreviations()) is not
+            # complete and fully correct. We elaborate on this in README.md.
+            # Doing it this way allows more precise and accurate feedback.
             for i, team in enumerate(inp):
-                # firstly replace all team names with their abbreviation
-                if len(team) > 3:
+                # convert abbreviations to full team names
+                if len(team) == 3:
                     try:
-                        # the following line raises a KeyError if the queried
-                        # team never participated in the NBA:
-                        inp[i] = team_abbreviations[team]
+                        inp[i] = abbrs_names[team]
                     except KeyError:
-                        # but faulty inputs are identified more precisely with
-                        # respect to the queried season below
-                        pass
+                        to_be_removed.append(team)
+                        print(f"It seems that {team} is not used as an abbreviation for any team on BBREF.")
+                        other_team = input("You can try the team's full name, specify another team, or just press enter: ").upper()
+                        if other_team:
+                            inp.append(other_team)
+                        continue
                 if not (inp[i] in possible_teams):
                     to_be_removed.append(inp[i])
-                    print(f"It seems that '{team}' did not participate in NBA season {season-1}/{season}.")
-                    other_team = input("Specify another team, or press enter if you don't want to: ").upper()
+                    print(f"It seems that '{inp[i]}' did not participate in NBA season {season-1}/{season}.")
+                    other_team = input("Specify another team, or just press enter: ").upper()
                     if other_team:
                         inp.append(other_team)
-
+                else:   # 'team' did participate in season
+                    try:
+                        # convert to abbreviation
+                        inp[i] = names_abbrs[inp[i]]
+                    except KeyError:
+                        to_be_removed.append(inp[i])
+                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{inp[i]}'.")
+                        other_team = input("Specify another team, or just press enter: ").upper()
+                        if other_team:
+                            inp.append(other_team)
             for team in to_be_removed:
                 inp.remove(team)
-            # any inputs that are still in inp are teams that did participate in
-            # the queried season
+            # if any teams are left by now, we do have suitable input
             if inp:
                 suitable_input = True
                 # remove duplicates while retaining order

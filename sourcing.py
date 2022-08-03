@@ -101,6 +101,14 @@ def get_season_stats(aspect, teams, season):
     """
     season_stats = utils.scrape_season_stats(season)
 
+    # replacing team names by three-letter abbreviations
+    abbr = utils.abbreviations()
+    # (convert team names to all caps in order to suit the entries in 'abbr':)
+    season_stats["Team"] = season_stats["Team"].str.upper()
+    season_stats = season_stats.replace({"Team": abbr})
+
+    season_stats = season_stats.set_index("Team")
+
     # subset rows according to queried teams
     season_stats = season_stats[season_stats.index.isin(teams)]
 
