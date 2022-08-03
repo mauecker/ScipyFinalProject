@@ -132,12 +132,14 @@ def get_suitable_input(category, required=None):
             to_be_removed = []
             # Here things get a bit complex. Essentially, what we are doing
             # here is checking whether the queried teams participated in the
-            # queried season. We do this by comparing the full names.
+            # queried season. We do this by comparing their full names.
             # If we compared the abbreviations, it could be that a team which
             # did actually participate in the queried season is rejected
             # because the dictionary we use (utils.abbreviations()) is not
-            # complete and fully correct. We elaborate on this in README.md.
-            # Doing it this way allows more precise and accurate feedback.
+            # complete and fully correct. (We elaborate on this in README.md.)
+            # Evading this by comparing full team names requires one additional
+            # step (converting abbreviations to full names and then back), but
+            # also enables more precise and accurate feedback.
             for i, team in enumerate(inp):
                 # convert abbreviations to full team names
                 if len(team) == 3:
