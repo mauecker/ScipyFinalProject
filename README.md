@@ -35,7 +35,7 @@ To run the code, you need to activate the conda environment within which you hav
 ```
   conda activate my-env
 ```
-Then, you just need to navigate to the directory to which `git` saved the code files in this repository, and execute the main.py file.
+Then, you just need to navigate to the directory to which `git` saved the code files in this repository, and execute the `main.py` file.
 
 ```
   cd path/to/repository
@@ -54,7 +54,7 @@ The module consists of five `.py`-files:
 
 The `main.py` file controls the overall procedure of the program. In order to do that, it calls functions from the `query_io.py`, `sourcing.py`, and `plotting.py` files. Functions that are needed by more than one of those latter three files are stored in `utils.py`.
 
-The three files `query_io.py`, `sourcing.py`, and `plotting.py` hold the main functionality of the code. Each of them has a controlling function at the top, by means of which it interfaces to the `main.py` file. This controlling function then calls other functions within the same file or from `utils.py` which achieve the respectively desired goal.<br>
+The three files `query_io.py`, `sourcing.py`, and `plotting.py` hold the main functionality of the module. Each of them has a controlling function at the top, by means of which it interfaces to the `main.py` file. This controlling function then calls other functions within the same file or from `utils.py` which achieve the respectively desired goal.<br>
 - `query_io.get_query()` organizes a terminal dialog to get the user's specifications regarding which aspect to visualize and what data to use to do so (which team/season).
 - `sourcing.get_data(query)` structures the process of scraping data from `bbref`and preprocessing it for visualization.
 - `plotting.visualize(data, query)` decides which function to use for plotting based on the query, specifically the queried aspect.
