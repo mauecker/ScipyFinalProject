@@ -5,7 +5,7 @@ David Siecke, Madleen Uecker
 ## Overview
 This is our final project for the course Scientific Programming in Python held in the summer term of 2022 at Osnabrück University.
 
-The central functionality of this python module is scraping basketball data from [basketball-reference.com](basketball-reference.com) (a website that provides comprehensive statistics for NBA teams, seasons, and matches; from here on referred to as `bbref`) according to user specifications and visualizing it.
+The central functionality of this python module is scraping basketball data from [basketball-reference.com](https://www.basketball-reference.com) (a website that provides comprehensive statistics for NBA teams, seasons, and matches; from here on referred to as `bbref`) according to user specifications and visualizing it.
 
 ## Installation
 To download the files, type the following into your terminal:
