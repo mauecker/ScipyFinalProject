@@ -11,7 +11,7 @@ The central functionality of this python module is scraping basketball data from
 To download the files, type the following into your terminal:
 
 ```
-  git clone ...?
+  git clone https://github.com/madule/ScipyFinalProject
 ```
 
 ### Requirements
