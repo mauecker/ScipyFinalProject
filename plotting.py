@@ -11,7 +11,7 @@ def visualize(data, query):
 
     Args:
         data (DataFrame): All and only the data required for visualization
-        query (list): Queried aspect, team(s), and season
+        query (tuple): Queried aspect, team(s), and season
 
     Returns:
         :return Plot as a matplotlib Figure
@@ -206,7 +206,7 @@ def simple_barplot(aspect, data, teams, season):
         ylabel=aspect_variants["short"],
         title=f"{aspect_variants['plot title']} in {'NBA' if season >= 1950 else 'BAA'} season {season-1}/{season}"
     )
-    
+
     plt.grid(axis="x")
     fig.set_size_inches(len(teams)*1.5, 3)
 

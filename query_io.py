@@ -1,4 +1,5 @@
 import utils
+import urllib
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -12,7 +13,7 @@ def get_query():
 
     Returns:
         :return Aspect to visualize (str), season (int), and list of teams in a
-                3-place list
+                3-place tuple
     """
 
     # aspect
@@ -54,7 +55,7 @@ def get_query():
     names_abbrs = utils.abbreviations()
     # flip the names_abbrs dictionary
     abbrs_names = dict((abbr, name) for (name, abbr) in names_abbrs.items())
-    teams = get_suitable_input("Team(s): ", required=(season, abbrs_names, names_abbrs))
+    teams = get_suitable_input("Team(s): ", required=(aspect, season, abbrs_names, names_abbrs))
 
     # get a nicely legible string representation of all queried teams and their
     # respective abbreviation used by bbref
@@ -72,7 +73,7 @@ def get_query():
             teams_verbal_enum += " "
 
     print(f"\n\nVisualizing {aspects.loc[aspect, 'short']} data of {teams_verbal_enum} in {'NBA' if season >= 1950 else 'BAA'} season {season-1}/{season} ...\n")
-    return [aspect, teams, season]
+    return (aspect, teams, season)
 
 
 def get_suitable_input(category, required=None):
@@ -122,7 +123,7 @@ def get_suitable_input(category, required=None):
                 suitable_input = True
 
         elif category == "Team(s): ":
-            season, abbrs_names, names_abbrs = required
+            aspect, season, abbrs_names, names_abbrs = required
             # get all teams that participated in season, convert to all caps in
             # order to allow case insensitive input by ...
             possible_teams = utils.scrape_season_stats(season).set_index("Team").index.str.upper()
@@ -162,11 +163,26 @@ def get_suitable_input(category, required=None):
                         inp.append(other_team)
                 else:   # 'team' did participate in season
                     try:
+                        fullname = inp[i]
                         # convert to abbreviation
                         inp[i] = names_abbrs[inp[i]]
+                        # correctness of abbreviations is crucial only for
+                        # aspect 'mar', as here the abbreviation is required for
+                        # obtaining the data. For all other aspects, it doesn't
+                        # matter so much whether the abbreviation in the plot
+                        # and the filename differs from the one used on BBREF.
+                        if aspect == "mar":
+                            test_url = f"https://www.basketball-reference.com/teams/{inp[i]}/{season}_games.html"
+                            test_fetch = pd.read_html(test_url)
                     except KeyError:
                         to_be_removed.append(inp[i])
-                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{inp[i]}'.")
+                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{inp[i]}' (because utils.abbreviations() is incomplete, see README.md).")
+                        other_team = input("Specify another team, or just press enter: ").upper()
+                        if other_team:
+                            inp.append(other_team)
+                    except urllib.error.HTTPError:
+                        to_be_removed.append(inp[i])
+                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{fullname}' (because utils.abbreviations is incorrect, see README.md).")
                         other_team = input("Specify another team, or just press enter: ").upper()
                         if other_team:
                             inp.append(other_team)
@@ -190,7 +206,7 @@ def export(plot, query):
 
     Args:
         plot (matplotlib Figure): The queried plot
-        query (list): Queried aspect, teams, and season
+        query (tuple): Queried aspect, teams, and season
 
     Return:
         :return None

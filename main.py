@@ -4,7 +4,6 @@ import plotting
 
 
 query = query_io.get_query()
-data, teams_updated = sourcing.get_data(query)
-query[1] = teams_updated   # remove teams for which data is missing
+data = sourcing.get_data(query)
 plot = plotting.visualize(data, query)
 query_io.export(plot, query)

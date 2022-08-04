@@ -10,28 +10,19 @@ def get_data(query):
     functions which scrape the corresponding data and prepare it for plotting
 
     Args:
-        query (list): Queried aspect, team(s), and season
+        query (tuple): Queried aspect, team(s), and season
 
     Returns:
-        :return A tuple containing all and only the required data in a pandas
-                DataFrame, as well as an updated list of teams from
-                which all teams for which no data is available have been
-                removed.
+        :return All and only the required data in a pandas DataFrame
     """
     aspect, teams, season = query
 
     if aspect == "mar":
-        data, teams_updated = get_margins(teams, season)
+        data = get_margins(teams, season)
     else:
         data = get_season_stats(aspect, teams, season)
-        # no need to update teams
-        teams_updated = teams
 
-    if data.empty:
-        print("\nNo data available for visualization. Terminating program.\n")
-        quit()
-
-    return data, teams_updated
+    return data
 
 
 def get_margins(teams, season):
@@ -47,10 +38,7 @@ def get_margins(teams, season):
         season (int): The queried season
 
     Returns:
-        :return A tuple containing margins and smoothed margins for all teams in
-                a pandas DataFrame, as well as an updated list of teams from
-                which all teams for which no data is available have been
-                removed.
+        :return Margins and smoothed margins for all teams in a pandas DataFrame
     """
     data_all_teams = pd.DataFrame()
     teams_to_be_removed = []
@@ -58,12 +46,7 @@ def get_margins(teams, season):
     for team in teams:
         # scrape data from bbref
         url = f"https://www.basketball-reference.com/teams/{team}/{season}_games.html"
-        try:
-            data_team = list(pd.read_html(url))[0]  # read in HTML table as DataFrame
-        except Exception:
-            print(f"Data required for computing margins not available for {team}")
-            teams_to_be_removed.append(team)
-            continue
+        data_team = list(pd.read_html(url))[0]  # read in HTML table as DataFrame
 
         # drop rows that don't contain game results
         data_team = data_team[data_team["G"] != "G"]
@@ -79,11 +62,7 @@ def get_margins(teams, season):
         data_all_teams[f"{team}_margin"] = data_team["margin"]
         data_all_teams[f"{team}_smoothed"] = data_team["smoothed"]
 
-    teams_updated = teams
-    for team in teams_to_be_removed:
-        teams_updated.remove(team)
-
-    return data_all_teams, teams_updated
+    return data_all_teams
 
 
 def get_season_stats(aspect, teams, season):
