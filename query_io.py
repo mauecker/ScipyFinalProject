@@ -134,7 +134,7 @@ def get_suitable_input(category, required=None):
             # Here things get a bit complex. Essentially, what we are doing
             # here is checking whether the queried teams participated in the
             # queried season. We do this by comparing their full names to the
-            # full names of those teams listed in the table containing total
+            # full names of those teams listed in the table containing average
             # season statistics.
             # If we compared the abbreviations, it could be that a team which
             # did actually participate in the queried season is rejected

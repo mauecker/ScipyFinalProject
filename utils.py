@@ -141,7 +141,7 @@ def scrape_season_stats(season):
         season (int): The queried season
 
     Returns:
-        :return Total season statistics (all teams, all aspects) in a pandas
+        :return Season statistics (all teams, all aspects) in a pandas
                 DataFrame
     """
     season_stats = pd.DataFrame()

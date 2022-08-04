@@ -76,11 +76,11 @@ Users can influence the functionality of the program by specifying
 - one or multiple NBA teams, and
 - one of the following aspects for visualization:
   - winning / losing margins for all games in the season (line plot)
-  - total points scored in the season (bar plot)
-  - total number of offensive rebounds in the season (bar plot)
-  - total number of defensive rebounds in the season (bar plot)
+  - average points scored in the season (bar plot)
+  - average number of offensive rebounds in the season (bar plot)
+  - average number of defensive rebounds in the season (bar plot)
   - shooting accuracy in the season (with respect to 3- and 2-point-shots as well as free throws, grouped bar plot)
-  - total number of assists vs turnovers in the season (scatter plot)
+  - average number of assists vs turnovers in the season (scatter plot)
 
 ## A note on operability
 When querying certain teams, the program at the stage of webscraping prints the notification that the data required for visualization is not available on `bbref` for the queried team, while it actually is.<br>

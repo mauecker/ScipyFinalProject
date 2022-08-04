@@ -85,7 +85,7 @@ def get_margins(teams, season):
 
 def get_season_stats(aspect, teams, season):
     """
-    Scraping total season statistics and preprocessing them according to the
+    Scraping average season statistics and preprocessing them according to the
     queried aspect and teams.
 
     Args:
