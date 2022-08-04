@@ -120,7 +120,7 @@ def abbreviations():
         "CHICAGO ZEPHYRS" : "CHI",
         "CHICAGO PACKERS" : "CHI",
         "ANDERSON PACKERS" : "AND",
-        "CHICAGO STAGS" : "CHI",
+        "CHICAGO STAGS" : "CHS",
         "INDIANAPOLIS OLYMPIANS" : "IND",
         "SHEBOYGAN RED SKINS" : "SRS",
         "ST. LOUIS BOMBERS" : "STB",
