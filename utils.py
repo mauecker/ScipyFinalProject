@@ -19,11 +19,11 @@ def aspects():
     aspects["abbr"] = pd.Series(["mar", "pts", "orb", "drb", "acc", "a/t"])
     aspects["full"] = pd.Series([
         "Winning / losing margins for all games in the season",
-        "Total points scored in the season",
-        "Total number of offensive rebounds in the season",
-        "Total number of defensive rebounds in the season",
+        "Average points per game in the season",
+        "Average number of offensive rebounds in the season",
+        "Average number of defensive rebounds in the season",
         "Shooting accuracy in the season",
-        "Total number of assists vs turnovers in the season"
+        "Average number of assists vs turnovers in the season"
     ])
     aspects["plot title"] = pd.Series([full[:-14] for full in aspects["full"]])
     aspects["short"] = pd.Series([
@@ -132,8 +132,8 @@ def abbreviations():
 
 def scrape_season_stats(season):
     """
-    Scrapes the total season statistics for all teams who participated. This is
-    used not only in sourcing.get_season_stats(), but also in
+    Scrapes the per-game statistics for all teams who participated in the
+    season. This is used not only in sourcing.get_season_stats(), but also in
     query_io.get_query() to verify that all queried teams participated in the
     queried season.
 
@@ -148,12 +148,12 @@ def scrape_season_stats(season):
 
     url = f"https://www.basketball-reference.com/leagues/{'NBA' if season > 1949 else 'BAA'}_{season}.html"
     tables = list(pd.read_html(url))   # get all tables on the specified webpage
-    # find the table containing total season statistics
+    # find the table containing per-game statistics
     for table in tables:
         try:
-            # the NBA record for points in a single game is just below 200 - we
-            # can use this for identifying the table containing total stats
-            if any(score > 200 for score in table["PTS"]):
+            # the table containing per-game stats is always the first one that
+            # has a "PTS" column containing floats
+            if table["PTS"].dtype == "float64":
                 season_stats = table
                 break
         except KeyError:

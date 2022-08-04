@@ -5,6 +5,8 @@ David Siecke, Madleen Uecker
 ## Overview
 This is our final project for the course Scientific Programming in Python held in the summer term of 2022 at Osnabrück University.
 
+As basketball enthusiasts, we were discontinent with basketball statistics websites, as they offer lots and lots of data, but usually only present them in plain tables which are boring to look at and do not efficiently communicate insights to humans. Consequently, we figured that creating a tool for visualizing those numbers which also caters to expandability would be a nice and hopefully useful project.
+
 The central functionality of this python module is scraping basketball data from [basketball-reference.com](https://www.basketball-reference.com) (a website that provides comprehensive statistics for NBA teams, seasons, and matches; from here on referred to as `bbref`) according to user specifications and visualizing it.
 
 ## Installation
@@ -38,7 +40,7 @@ To run the code, you need to activate the conda environment within which you hav
 Then, you just need to navigate to the directory to which `git` saved the code files in this repository, and execute the `main.py` file.
 
 ```
-  cd path/to/repository
+  cd PathTo/ScipyFinalProject
   python main.py
 ```
 The further usage is explained in the terminal by the program itself. Some example usages can be found in the accompanying `.ipynb` file.

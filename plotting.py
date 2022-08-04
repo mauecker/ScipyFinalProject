@@ -11,7 +11,7 @@ def visualize(data, query):
 
     Args:
         data (DataFrame): All and only the data required for visualization
-        query (tuple): Queried aspect, team(s), and season
+        query (list): Queried aspect, team(s), and season
 
     Returns:
         :return Plot as a matplotlib Figure
@@ -110,7 +110,7 @@ def scatterplot(data, teams, season):
     ax.set(
         xlabel="Assists",
         ylabel="Turnovers",
-        title = f"Total Number of Assists vs Turnovers in {'NBA' if season >= 1950 else 'BAA'} season {season-1}/{season}"
+        title = f"Average Number of Assists vs Turnovers in {'NBA' if season >= 1950 else 'BAA'} season {season-1}/{season}"
     )
     fig.set_size_inches(10,10)
 
@@ -196,8 +196,8 @@ def simple_barplot(aspect, data, teams, season):
         ])
     else:
         ax.set_ylim([
-            data.values - 0.6*(data.values/10),
-            data.values + 0.4*(data.values/10),
+            np.ceil(data.values - 0.6*(data.values/10)),
+            np.ceil(data.values + 0.4*(data.values/10))
         ])
 
     # set y axis label and plot title depending on aspect

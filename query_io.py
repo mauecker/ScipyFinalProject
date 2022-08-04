@@ -13,7 +13,7 @@ def get_query():
 
     Returns:
         :return Aspect to visualize (str), season (int), and list of teams in a
-                3-place tuple
+                3-place list
     """
 
     # aspect
@@ -73,7 +73,7 @@ def get_query():
             teams_verbal_enum += " "
 
     print(f"\n\nVisualizing {aspects.loc[aspect, 'short']} data of {teams_verbal_enum} in {'NBA' if season >= 1950 else 'BAA'} season {season-1}/{season} ...\n")
-    return (aspect, teams, season)
+    return [aspect, teams, season]
 
 
 def get_suitable_input(category, required=None):
@@ -182,7 +182,7 @@ def get_suitable_input(category, required=None):
                             inp.append(other_team)
                     except urllib.error.HTTPError:
                         to_be_removed.append(inp[i])
-                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{fullname}' (because utils.abbreviations is incorrect, see README.md).")
+                        print(f"Sorry, we do not know the abbreviation BBREF uses for '{fullname}' (because utils.abbreviations() is incorrect, see README.md).")
                         other_team = input("Specify another team, or just press enter: ").upper()
                         if other_team:
                             inp.append(other_team)
@@ -206,7 +206,7 @@ def export(plot, query):
 
     Args:
         plot (matplotlib Figure): The queried plot
-        query (tuple): Queried aspect, teams, and season
+        query (list): Queried aspect, teams, and season
 
     Return:
         :return None
