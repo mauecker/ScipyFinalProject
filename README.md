@@ -5,7 +5,7 @@ David Siecke, Madleen Uecker
 ## Overview
 This is our final project for the course Scientific Programming in Python held in the summer term of 2022 at Osnabrück University.
 
-As basketball enthusiasts, we were discontinent with basketball statistics websites, as they offer lots and lots of data, but usually only present them in plain tables which are boring to look at and do not efficiently communicate insights to humans. Consequently, we figured that creating a tool for visualizing those numbers which also caters to expandability would be a nice and hopefully useful project.
+As basketball enthusiasts, we were dissatisfied with basketball statistics websites, as they offer lots and lots of data, but usually only present them in plain tables which are boring to look at and do not efficiently communicate insights to humans. Consequently, we figured that creating a tool for visualizing those numbers which also caters to expandability would be a nice and hopefully useful project.
 
 The central functionality of this python module is scraping basketball data from [basketball-reference.com](https://www.basketball-reference.com) (a website that provides comprehensive statistics for NBA teams, seasons, and matches; from here on referred to as `bbref`) according to user specifications and visualizing it.
 
